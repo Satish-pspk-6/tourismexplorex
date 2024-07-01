@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tourism Explorex</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body { font-family: 'Montserrat', sans-serif; margin: 0; padding: 0; background: #fafafa; color: #333; }
+        header { background: #000; color: #fff; padding: 10px 0; display: flex; justify-content: space-between; align-items: center; }
+        .logo { padding: 0 20px; font-size: 1.8em; font-weight: bold; font-family: 'Montserrat', sans-serif; }
+        nav a { color: #fff; margin: 0 10px; text-decoration: none; font-weight: bold; }
+        .hero { background: url('hero-image.jpg') no-repeat center center/cover; height: 400px; color: #000; text-align: center; display: flex; flex-direction: column; justify-content: center; position: relative; }
+        .hero h1 { font-size: 3.5em; margin: 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        .hero p { font-size: 1.2em; margin-top: 10px; color: #000; background: rgba(255, 255, 255, 0.8); padding: 5px; display: inline-block; }
+        .search-bar { margin: 20px auto; width: 70%; display: flex; justify-content: center; }
+        .search-bar select, .search-bar button { padding: 10px; font-size: 1em; }
+        .search-bar select { flex: 3; }
+        .search-bar button { background: #000; color: #fff; border: none; cursor: pointer; flex: 1; }
+        .weather-widget { position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 5px; color: #fff; }
+        .options { display: flex; justify-content: space-around; margin: 40px 0; }
+        .option { width: 200px; height: 150px; background: #fff; text-align: center; padding: 20px; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+        .option:hover { transform: scale(1.1); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); }
+        .option img { width: 100%; height: 100px; object-fit: cover; border-radius: 5px; }
+        footer { background: #000; color: #fff; padding: 20px; text-align: center; }
+        footer a { color: #ff6600; margin: 0 10px; text-decoration: none; }
+        footer input[type="email"] { padding: 5px; border: none; border-radius: 3px; }
+        footer button { background: #ff6600; color: #fff; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; }
+    </style>
+    <script>
+        function showWeather(city) {
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=YOUR_API_KEY&units=metric`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('weather').innerHTML = `
+                        <p>${data.name}</p>
+                        <p>${data.weather[0].description}</p>
+                        <p>${data.main.temp}°C</p>
+                    `;
+                });
+        }
+
+        function exploreCity() {
+            const city = document.getElementById('city-select').value;
+            if (city) {
+                showWeather(city);
+                document.getElementById('hero-title').textContent = `Discover the Wonders of ${city}!`;
+                document.getElementById('history').setAttribute('onclick', `window.location.href='https://en.wikipedia.org/wiki/${city}'`);
+            }
+        }
+
+        function clearHistoryLink() {
+            document.getElementById('history').removeAttribute('onclick');
+        }
+
+        function initMap() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    window.location.href = `https://en.wikipedia.org/wiki/${lat},${lon}`;
+                });
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById('hero-title').textContent = `Discover the Wonders of West Godavari!`;
+        });
+    </script>
+</head>
+<body onload="clearHistoryLink()">
+
+<header>
+    <div class="logo">Tourism Explorex</div>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">About Us</a>
+        <a href="#">Contact Us</a>
+    </nav>
+</header>
+
+<div class="hero">
+    <h1 id="hero-title">Discover the Wonders of West Godavari!</h1>
+    <p>"Traveling – it leaves you speechless, then turns you into a storyteller." – Ibn Battuta</p>
+    <div class="search-bar">
+        <select id="city-select">
+            <option value="" disabled selected>Select a city</option>
+            <option value="Adoni">Adoni</option>
+            <option value="Amalapuram">Amalapuram</option>
+            <option value="Anakapalle">Anakapalle</option>
+            <option value="Anantapur">Anantapur</option>
+            <option value="Badvel">Badvel</option>
+            <option value="Bapatla">Bapatla</option>
+            <option value="Bheemunipatnam">Bheemunipatnam</option>
+            <option value="Bhimavaram">Bhimavaram</option>
+            <option value="Bobbili">Bobbili</option>
+            <option value="Cherlopalle">Cherlopalle</option>
+            <option value="Chintapalle">Chintapalle</option>
+            <option value="Chirala">Chirala</option>
+            <option value="Chittoor">Chittoor</option>
+            <option value="Chodavaram">Chodavaram</option>
+            <option value="Cumbum">Cumbum</option>
+            <option value="Dhone">Dhone</option>
+            <option value="Eluru">Eluru</option>
+            <option value="Giddalur">Giddalur</option>
+            <option value="Gopalapuram">Gopalapuram</option>
+            <option value="Gudur">Gudur</option>
+            <option value="Hindupur">Hindupur</option>
+            <option value="Jaggayyapeta">Jaggayyapeta</option>
+            <option value="Kadapa">Kadapa</option>
+            <option value="Kadiri">Kadiri</option>
+            <option value="Kakinada">Kakinada</option>
+            <option value="Kanigiri">Kanigiri</option>
+            <option value="Kankipadu">Kankipadu</option>
+            <option value="Kavali">Kavali</option>
+            <option value="Kolanukonda">Kolanukonda</option>
+            <option value="Kondapalle">Kondapalle</option>
+            <option value="Korukollu">Korukollu</option>
+            <option value="Kovvur">Kovvur</option>
+            <option value="Kurnool">Kurnool</option>
+            <option value="Macherla">Macherla</option>
+            <option value="Machilipatnam">Machilipatnam</option>
+            <option value="Madanapalle">Madanapalle</option>
+            <option value="Mandapeta">Mandapeta</option>
+            <option value="Mangalagiri">Mangalagiri</option>
+            <option value="Markapur">Markapur</option>
+            <option value="Nagari">Nagari</option>
+            <option value="Nandyal">Nandyal</option>
+            <option value="Narasapuram">Narasapuram</option>
+            <option value="Narasaraopet">Narasaraopet</option>
+            <option value="Narsipatnam">Narsipatnam</option>
+            <option value="Nellore">Nellore</option>
+            <option value="Nidadavole">Nidadavole</option>
+            <option value="Nuzvid">Nuzvid</option>
+            <option value="Ongole">Ongole</option>
+            <option value="Palakollu">Palakollu</option>
+            <option value="Penugonda">Penugonda</option>
+            <option value="Piduguralla">Piduguralla</option>
+            <option value="Pithapuram">Pithapuram</option>
+            <option value="Puttur">Puttur</option>
+            <option value="Rajahmundry">Rajahmundry</option>
+            <option value="Rayachoti">Rayachoti</option>
+            <option value="Rayadrug">Rayadrug</option>
+            <option value="Renigunta">Renigunta</option>
+            <option value="Repalle">Repalle</option>
+            <option value="Salur">Salur</option>
+            <option value="Samalkot">Samalkot</option>
+            <option value="Sattenapalle">Sattenapalle</option>
+            <option value="Singarayakonda">Singarayakonda</option>
+            <option value="Srikakulam">Srikakulam</option>
+            <option value="Tadepalligudem">Tadepalligudem</option>
+            <option value="Tadpatri">Tadpatri</option>
+            <option value="Tuni">Tuni</option>
+            <option value="Uravakonda">Uravakonda</option>
+            <option value="Vijayawada">Vijayawada</option>
+            <option value="Vinukonda">Vinukonda</option>
+            <option value="Visakhapatnam">Visakhapatnam</option>
+            <option value="Vizianagaram">Vizianagaram</option>
+        </select>
+        <button onclick="exploreCity()">Explore</button>
+    </div>
+    <div id="weather" class="weather-widget"></div>
+</div>
+
+<div class="options">
+    <a href="dinein.html">
+    <div class="option" id="dine-in" onclick="window.location.href='#dine-in'">    
+        <img src="dinein.jpeg" alt="Dine-in Options">
+        <h3 style="color: #000;">Dine-in Options</h3>
+    </div>
+   </a>
+    <div class="option" id="hotels" onclick="window.location.href='#hotels'">
+        <img src="hotels.jpg" alt="Hotel Accommodations">
+        <h3>Hotel Accommodations</h3>
+    </div>
+    <div class="option" id="history" onclick="exploreCity()">
+        <img src="history.jpg" alt="History and Culture">
+        <h3>History and Culture</h3>
+    </div>
+    <div class="option" id="attractions" onclick="window.location.href='#attractions'">
+        <img src="attractions.jpg" alt="Nearby Attractions">
+        <h3>Nearby Attractions</h3>
+    </div>
+</div>
+
+
+<footer>
+    <div>Quick Links: <a href="#">Dine-in</a> | <a href="#">Hotels</a> | <a href="#">History</a> | <a href="#">Attractions</a> | <a href="#">About Us</a> | <a href="#">Contact Us</a></div>
+    <div>Follow Us: <a href="#">Facebook</a> | <a href="#">Twitter</a> | <a href="#">Instagram</a></div>
+    <div>Subscribe to our newsletter: <input type="email" placeholder="Your email"><button>Subscribe</button></div>
+    <div>Contact Us: 123 Main St, Anytown, USA | +1 234 567 890 | email@example.com</div>
+</footer>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
+
+</body>
+</html>
